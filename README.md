@@ -1,2 +1,2 @@
-# lista_alunos
-Aplicativo de lista de alunos do módulo 1 da formação android da Alura utilizando JAVA.
+# APP Lista de Alunos
+Aplicativo de lista de alunos do módulo 1 da Formação Android da Alura utilizando Java.
