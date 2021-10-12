@@ -1,5 +1,6 @@
 package id.logistics.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,6 +8,8 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.Serializable;
 
 import id.logistics.DAO.AlunoDAO;
 import id.logistics.R;
@@ -27,8 +30,16 @@ public class FormAlunoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_form_aluno);
 
         setTitle(TITULO_APPBAR);
+
         inicializacaoDosCampos();
         configuraBotaoSalvar();
+
+        Intent dados = getIntent();
+        Aluno aluno =  (Aluno) dados.getSerializableExtra("aluno");
+
+        campoNome.setText(aluno.getNome());
+        campoTelefone.setText(aluno.getTelefone());
+        campoEmail.setText(aluno.getEmail());
 
     }
 
