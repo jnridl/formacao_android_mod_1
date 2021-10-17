@@ -1,15 +1,14 @@
 package id.logistics.ui.activity;
 
+import static id.logistics.ui.activity.ContantesActivies.CHAVE_ALUNO;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.io.Serializable;
 
 import id.logistics.DAO.AlunoDAO;
 import id.logistics.R;
@@ -17,11 +16,13 @@ import id.logistics.model.Aluno;
 
 public class FormAlunoActivity extends AppCompatActivity {
 
-    public static final String TITULO_APPBAR = "Novo aluno";
+    private static final String TITULO_APPBAR_NOVO = "Novo aluno";
+    private static final String TITULO_APPBAR_EDITA = "Edita aluno";
     private EditText campoNome;
     private EditText campoTelefone;
     private EditText campoEmail;
     private final AlunoDAO dao = new AlunoDAO();
+    private Aluno aluno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +30,34 @@ public class FormAlunoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_aluno);
 
-        setTitle(TITULO_APPBAR);
-
         inicializacaoDosCampos();
         configuraBotaoSalvar();
+        carregaAluno();
+
+    }
+
+    private void carregaAluno() {
 
         Intent dados = getIntent();
-        Aluno aluno =  (Aluno) dados.getSerializableExtra("aluno");
 
+        if(dados.hasExtra(CHAVE_ALUNO)){
+
+            setTitle(TITULO_APPBAR_EDITA);
+
+            aluno =  (Aluno) dados.getSerializableExtra(CHAVE_ALUNO);
+            carregaAlunos();
+
+        }else{
+            setTitle(TITULO_APPBAR_NOVO);
+            aluno = new Aluno();
+        }
+
+    }
+
+    private void carregaAlunos() {
         campoNome.setText(aluno.getNome());
         campoTelefone.setText(aluno.getTelefone());
         campoEmail.setText(aluno.getEmail());
-
     }
 
     private void inicializacaoDosCampos() {
@@ -54,25 +71,35 @@ public class FormAlunoActivity extends AppCompatActivity {
         botaoSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Aluno alunoCriado = criaAluno();
-                salva(alunoCriado);
+                finalizaFormulario();
             }
         });
     }
 
-    @NonNull
-    private Aluno criaAluno() {
+    private void finalizaFormulario() {
+
+        preencheAluno();
+
+        if(aluno.temIdValido()){
+            dao.edita(aluno);
+        }else{
+            dao.salva(aluno);
+        }
+
+        finish();
+
+    }
+
+    private void preencheAluno() {
+
         String nome = campoNome.getText().toString();
         String telefone = campoTelefone.getText().toString();
         String email = campoEmail.getText().toString();
 
-        Aluno alunoCriado = new Aluno(nome, telefone, email);
-        return alunoCriado;
-    }
+        aluno.setNome(nome);
+        aluno.setTelefone(telefone);
+        aluno.setEmail(email);
 
-    private void salva(Aluno alunoCriado) {
-        dao.salva(alunoCriado);
-        finish();
     }
 
 }
