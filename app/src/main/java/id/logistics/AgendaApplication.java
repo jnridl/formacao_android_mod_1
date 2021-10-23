@@ -20,5 +20,5 @@ public class AgendaApplication extends Application {
         dao.salva(new Aluno("Junior", "11999999999", "junior@gmail.com"));
         dao.salva(new Aluno("Daia", "11999999999", "daia@gmail.com"));
     }
-    
+
 }
