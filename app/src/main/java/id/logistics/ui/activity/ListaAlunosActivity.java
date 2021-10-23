@@ -5,23 +5,15 @@ import static id.logistics.ui.activity.ContantesActivies.CHAVE_ALUNO;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import id.logistics.DAO.AlunoDAO;
 import id.logistics.R;
@@ -43,9 +35,6 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
         configuraFabNovoAluno();
         configuraLista();
-
-        dao.salva(new Aluno("Junior", "11999999999", "junior@gmail.com"));
-        dao.salva(new Aluno("Daia", "11999999999", "daia@gmail.com"));
 
     }
 
@@ -90,8 +79,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
     }
 
     private void atualizaAlunos() {
-        adapter.clear();
-        adapter.addAll(dao.todos());
+        adapter.atualiza(dao.todos());
     }
 
     private void configuraLista() {
@@ -125,10 +113,8 @@ public class ListaAlunosActivity extends AppCompatActivity {
     }
 
     private void configuraAdapter(ListView listaDeAlunos) {
-
         adapter = new ListaAlunosAdapter(this);
         listaDeAlunos.setAdapter(adapter);
-
     }
 
 }
