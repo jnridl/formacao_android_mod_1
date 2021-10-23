@@ -77,7 +77,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("Não", null)
                 .show();
-        
+
     }
 
     private void configuraFabNovoAluno() {
